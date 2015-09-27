@@ -2,70 +2,62 @@
 using namespace std;
 int main()
 {
-	
-	ios_base::sync_with_stdio(false);
-    cin.tie(false);
-	vector<pair<int, int> > b,s;
-	int n,p;
+	//int b[100017], s[100017];
+	map<long long, long long> b,s;
+	long long n,p;
 	char a;
-	int q,w;
+	long long q,w;
 	cin>>n>>p;
-	for(int i=0;i<n;i++) 
+	for(long long i=0;i<n;i++) 
 	{
 		cin>>a>>q>>w;
-		if(a=='B') b.push_back(make_pair(q,w));
-		else s.push_back(make_pair(q,w));
+		if(a=='B') b[q]+=w;
+		else s[q]+=w;
 	}
-	sort(s.begin(), s.end());
-	sort(b.begin(), b.end());
-	int th = p;
-	int i = 0,j;
-	vector<pair<int, int > > ans;
-	while(p>0 && i<s.size())
+	map<long long, long long> ::iterator i = s.end();
+	long long j = 0;
+	long long t1 = s.size();
+	if(t1>0) i--;
+	if(t1>p)
 	{
-		int s1 = s[i].second;
-		j = i+1;
-		while(j>=0)
+		while(t1>p)
 		{
-			if(s[j].first == s[i].first)
-			{
-				s1+=s[j].second;
-				j++;
-			}
-			else
-			{
-				break;
-			}
+			i--;
+			t1--;
 		}
-		p--;
-		ans.push_back(make_pair(s[i].first, s1));
-		i = j;
-	}
-	int gg = ans.size()-1;
-	for(int i=gg;i>=0;i--)
-	{
-		cout<<"S "<<ans[i].first<<" "<<ans[i].second<<"\n";
-	}
-	i = b.size()-1;
-	while(th>0 && i>=0)
-	{
-		int s1 = b[i].second;
-		j = i-1;
-		while(j>=0)
+		for(j=0;j<t1;j++)
 		{
-			if(b[j].first == b[i].first)
-			{
-				s1+=b[j].second;
-				j--;
-			}
-			else
-			{
-				break;
-			}
+			cout <<"S "<<i->first<<" "<< i->second<< "\n";
+			i--;
 		}
-		th--;
-		cout<<"B "<<b[i].first<<" "<<s1<<"\n";
-		i = j;
+	}
+	else
+	{
+		for(j=0;j<t1;j++)
+		{
+			cout <<"S "<<i->first<<" "<< i->second<< "\n";
+			i--;
+		}
+	}
+	
+	i = b.end();
+	t1 = b.size();
+	if(t1>0) i--;
+	if(t1>p)
+	{
+		for(long long j=0;j<p;j++)
+		{
+			cout <<"B "<<i->first<<" "<< i->second<< "\n";
+			i--;
+		}
+	}
+	else
+	{
+		for(long long j=0;j<t1;j++)
+		{
+			cout <<"B "<<i->first<<" "<< i->second<< "\n";
+			i--;
+		}
 	}
 	return 0;
 }
